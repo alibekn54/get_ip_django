@@ -9,7 +9,7 @@ from ip2geotools.databases.noncommercial import DbIpCity
 
 def index(request):
     client_ip, is_routable = get_client_ip(request)
-    response = DbIpCity.get('5.251.199.84', api_key='free')
+    response = DbIpCity.get(client_ip, api_key='free')
 
     if client_ip is None:
         return HttpResponse("Unable to get the client's IP address")
