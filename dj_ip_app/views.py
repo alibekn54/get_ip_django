@@ -25,6 +25,81 @@ def get_ip(request):
         private = "The client's IP address is private"
 
 
+    # get api
+
+
+
+    import json
+
+    import requests
+    import datetime
+    api_key = 'd60722d76693fe5719d84103c6d08d89'
+
+    city_name = 'Almaty'
+    url = f'https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={api_key}'
+    req = requests.get(url)
+    data = req.json()
+
+    name = data['name']
+    cur_weather = round(data['main']['temp'] - 273.15, 2)
+    humidity = data['main']['humidity']
+    pressure = data['main']['pressure']
+    wind = data['wind']['speed']
+    sunrise_timestamp = datetime.datetime.fromtimestamp(data['sys']['sunrise'])
+    sunset_timestamp = datetime.datetime.fromtimestamp(data['sys']['sunset'])
+    dayLen = datetime.datetime.fromtimestamp(data['sys']['sunset']) - datetime.datetime.fromtimestamp(
+        data['sys']['sunrise'])
+    feels = round(data['main']['feels_like'] - 273.15, 2)
+
+    print(f'Weather in {name}\n'
+          f'Current weather {cur_weather}°C\n'
+          f'Feels like {feels}°C\n'
+          f'Humidity : {humidity}%\n'
+          f'pressure : {pressure}\n'
+          f'Sunrise : {sunrise_timestamp}\n'
+          f'Sunset : {sunset_timestamp}\n'
+          f'Day length : {dayLen}\n'
+          f'Wind {wind} m/s')
+    weather_info = {
+        'Weather in': name,
+        'current weather': cur_weather,
+        'Feels like': feels,
+        'Humidity': humidity,
+        'Pressure': pressure,
+        'Sunrise': sunrise_timestamp,
+        'Sunset': sunset_timestamp,
+        'Day lenght': dayLen,
+        'Wind': wind
+    }
+
+    context = {'info': weather_info}
+
+    return render(request, 'index.html', context=context)
+
+
+
+
+
+
+
+
+def forecast(request):
+    client_ip, is_routable = get_client_ip(request)
+    response = DbIpCity.get(client_ip, api_key='free')
+
+    if client_ip is None:
+        unable = "Unable to get the client's IP address"
+    else:
+        ip = client_ip
+        is_rout = is_routable
+        city = response.city
+        country = response.country
+    if is_routable:
+        publicly = "The client's IP address is publicly routable on the Internet"
+    else:
+        private = "The client's IP address is private"
+
+
 
     api_key2 = 'd60722d76693fe5719d84103c6d08d89'
 
@@ -67,7 +142,4 @@ def get_ip(request):
 
     main = {'city': city, 'country': country}
     weather = {'weather': data_every}
-
-    return render(request, 'index.html', context={'main': main, 'weather': weather})
-
-
+    return render(request, 'forecast.html', context={'main': main, 'weather': weather})

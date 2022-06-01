@@ -3,5 +3,6 @@ from .views import *
 
 
 urlpatterns = [
-    path('', get_ip)
+    path('', get_ip),
+    path('forecast/', forecast)
 ]

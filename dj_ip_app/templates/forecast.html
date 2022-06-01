@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+        <ul>
+            {% for i, j in weather.items %}
+                {% for k,l in j.items %}
+                    <li> {{k}} - day {{ l }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+{% endblock %}
