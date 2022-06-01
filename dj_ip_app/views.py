@@ -66,8 +66,8 @@ def get_ip(request):
         'Feels like': feels,
         'Humidity': humidity,
         'Pressure': pressure,
-        'Sunrise': sunrise_timestamp,
-        'Sunset': sunset_timestamp,
+        'Sunrise': str(sunrise_timestamp),
+        'Sunset': str(sunset_timestamp),
         'Day lenght': dayLen,
         'Wind': wind
     }

@@ -1,5 +1,3 @@
-import json
-
 import requests
 import datetime
 api_key = 'd60722d76693fe5719d84103c6d08d89'
@@ -8,6 +6,7 @@ city_name = 'Almaty'
 url = f'https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={api_key}'
 req = requests.get(url)
 data = req.json()
+
 
 name = data['name']
 cur_weather = round(data['main']['temp'] - 273.15, 2)
