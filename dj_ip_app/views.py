@@ -58,19 +58,11 @@ def get_ip(request):
 
 
     data_dict = {'morning': days, 'nights': nights, 'descr': descr}
-    data_every = {
-        1: '',
-        2: '',
-        3: '',
-        4: '',
-        5: '',
-        6: '',
-        7: '',
-        8: ''
-    }
+    data_every = {}
     for i in range(0, 8):
         myStr = str(data_dict["morning"][i]) + " " + str(data_dict["nights"][i]) + " " + str(data_dict["descr"][i])
-        data_every[i] = myStr
+    for days in range(1, 9):
+        data_every[days] = myStr
 
     main = {'city': city, 'country': country}
     weather = {'weather': data_every}
