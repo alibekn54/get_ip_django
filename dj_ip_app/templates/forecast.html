@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
+<style>
+    .forecast {
+        margin-top: 70px;
+    }
+</style>
         <ul>
             {% for i, j in weather.items %}
                 {% for k,l in j.items %}
@@ -7,4 +12,5 @@
                 {% endfor %}
             {% endfor %}
         </ul>
+        <h3 class="forecast"><a href="{% url 'main' %}">Back</a></h3>
 {% endblock %}

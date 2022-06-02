@@ -44,21 +44,26 @@ def get_ip(request):
     humidity = data['main']['humidity']
     pressure = data['main']['pressure']
     wind = data['wind']['speed']
+    lon = data['coord']['lon']
+    lat = data['coord']['lat']
+
     sunrise_timestamp = datetime.datetime.fromtimestamp(data['sys']['sunrise'])
     sunset_timestamp = datetime.datetime.fromtimestamp(data['sys']['sunset'])
-    dayLen = datetime.datetime.fromtimestamp(data['sys']['sunset']) - datetime.datetime.fromtimestamp(
-        data['sys']['sunrise'])
+    dayLen = datetime.datetime.fromtimestamp(data['sys']['sunset']) - datetime.datetime.fromtimestamp(data['sys']['sunrise'])
+
     feels = round(data['main']['feels_like'] - 273.15, 2)
 
-    print(f'Weather in {name}\n'
-          f'Current weather {cur_weather}°C\n'
-          f'Feels like {feels}°C\n'
-          f'Humidity : {humidity}%\n'
-          f'pressure : {pressure}\n'
-          f'Sunrise : {sunrise_timestamp}\n'
-          f'Sunset : {sunset_timestamp}\n'
-          f'Day length : {dayLen}\n'
-          f'Wind {wind} m/s')
+    # print(f'Weather in {name}\n'
+    #       f'Current weather {cur_weather}°C\n'
+    #       f'Feels like {feels}°C\n'
+    #       f'Humidity : {humidity}%\n'
+    #       f'pressure : {pressure}\n'
+    #       f'Sunrise : {sunrise_timestamp}\n'
+    #       f'Sunset : {sunset_timestamp}\n'
+    #       f'Day length : {dayLen}\n'
+    #       f'Wind {wind} m/s')
+
+
     weather_info = {
         'Weather in': name,
         'current weather': cur_weather,
