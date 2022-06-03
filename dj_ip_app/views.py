@@ -150,6 +150,7 @@ def forecast(request):
 
 import requests
 import datetime
+import geocoder
 
 def test(request):
     x_forw_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -158,13 +159,14 @@ def test(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
 
-    response = DbIpCity.get(ip, api_key='free')
-    city = response.city
-
 
     api_key = 'd60722d76693fe5719d84103c6d08d89'
+    city_ip = geocoder.ip(ip)
+
+    city = city_ip.ip
 
     city_name = city
+
     url = f'https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={api_key}'
     req = requests.get(url)
     data = req.json()
