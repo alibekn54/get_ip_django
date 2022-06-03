@@ -69,26 +69,26 @@ def get_ip(request):
 
 
 def forecast(request):
-    client_ip, is_routable = get_client_ip(request)
-    response = DbIpCity.get(client_ip, api_key='free')
 
-    if client_ip is None:
-        unable = "Unable to get the client's IP address"
+        # get ip
+    x_forw_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forw_for is not None:
+        ip = x_forw_for.split(',')[0]
     else:
-        ip = client_ip
-        is_rout = is_routable
-        city = response.city
-        country = response.country
-    if is_routable:
-        publicly = "The client's IP address is publicly routable on the Internet"
-    else:
-        private = "The client's IP address is private"
+        ip = request.META.get('REMOTE_ADDR')
+
+    # find the city with ip geocoder
+
+    ip_city = geocoder.ip(ip)
+
+    ip_city_2 = ip_city.city
+    ip_country = ip_city.country
 
 
 
     api_key2 = 'd60722d76693fe5719d84103c6d08d89'
 
-    city_name = city
+    city_name = ip_city_2
     url = f'https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={api_key2}'
     req = requests.get(url)
     data = req.json()
@@ -125,7 +125,7 @@ def forecast(request):
         data_every[j] = myStr
         j += 1
 
-    main = {'city': city, 'country': country}
+    main = {'city': name, 'country': ip_country}
     weather = {'weather': data_every}
     return render(request, 'forecast.html', context={'main': main, 'weather': weather})
 

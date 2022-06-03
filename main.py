@@ -7,4 +7,4 @@ import geocoder
 # print(city.ip)
 
 ip = geocoder.ip("95.82.121.233")
-print(ip.city)
+print(ip.country)
