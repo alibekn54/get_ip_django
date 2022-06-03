@@ -4,6 +4,5 @@ from .views import *
 
 urlpatterns = [
     path('', get_ip, name='main'),
-    path('forecast/', forecast, name='forecast'),
-    path('ip/', test, name='test')
+    path('forecast/', forecast, name='forecast')
 ]
