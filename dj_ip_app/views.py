@@ -148,7 +148,8 @@ def forecast(request):
     weather = {'weather': data_every}
     return render(request, 'forecast.html', context={'main': main, 'weather': weather})
 
-
+import requests
+import datetime
 
 def test(request):
     x_forw_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -157,7 +158,46 @@ def test(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
 
+    response = DbIpCity.get(ip, api_key='free')
+    city = response.city
 
-    context = {'main_ip': ip}
+
+    api_key = 'd60722d76693fe5719d84103c6d08d89'
+
+    city_name = city
+    url = f'https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={api_key}'
+    req = requests.get(url)
+    data = req.json()
+
+    name = data['name']
+    cur_weather = round(data['main']['temp'] - 273.15, 2)
+    humidity = data['main']['humidity']
+    pressure = data['main']['pressure']
+    wind = data['wind']['speed']
+    lon = data['coord']['lon']
+    lat = data['coord']['lat']
+
+    sunrise_timestamp = datetime.datetime.fromtimestamp(data['sys']['sunrise'])
+    sunset_timestamp = datetime.datetime.fromtimestamp(data['sys']['sunset'])
+    dayLen = datetime.datetime.fromtimestamp(data['sys']['sunset']) - datetime.datetime.fromtimestamp(
+        data['sys']['sunrise'])
+
+    feels = round(data['main']['feels_like'] - 273.15, 2)
+
+
+    weather_info = {
+        'Weather in': name,
+        'current weather': cur_weather,
+        'Feels like': feels,
+        'Humidity': humidity,
+        'Pressure': pressure,
+        'Sunrise': str(sunrise_timestamp),
+        'Sunset': str(sunset_timestamp),
+        'Day lenght': dayLen,
+        'Wind': wind
+    }
+
+
+    context = {'main_ip': ip, 'info':weather_info}
 
     return render(request, 'test.html', context=context)

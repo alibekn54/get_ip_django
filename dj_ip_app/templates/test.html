@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
     {{ main_ip }}
+    {% for item, value in info.items %}
+        <h5>{{ item }} : {{ value }}</h5>
+    {% endfor %}
 {% endblock %}
