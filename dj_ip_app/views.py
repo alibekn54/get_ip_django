@@ -56,7 +56,7 @@ def get_ip(request):
         'Pressure': pressure,
         'Sunrise': str(sunrise_timestamp),
         'Sunset': str(sunset_timestamp),
-        'Day lenght': dayLen,
+        'Day length': dayLen,
         'Wind': wind,
         'Description': descr
     }
