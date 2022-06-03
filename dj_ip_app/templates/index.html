@@ -3,12 +3,15 @@
 {% block content %}
     <style>
         .forecast {
-    margin-top: 70px;
-    }
+            margin-top: 70px;
+        }
     </style>
+
+
     {% for item, value in info.items %}
         <h5>{{ item }} : {{ value }}</h5>
     {% endfor %}
     {{ main_ip }}
+    {{ today }}
     <h3 class="forecast"><a href="{% url 'forecast' %}">8 Days Forecast</a></h3>
 {% endblock content %}

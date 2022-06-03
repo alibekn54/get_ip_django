@@ -45,6 +45,7 @@ def get_ip(request):
         data['sys']['sunrise'])
 
     feels = round(data['main']['feels_like'] - 273.15, 2)
+    descr = data['weather'][0]['description']
 
 
     weather_info = {
@@ -56,11 +57,12 @@ def get_ip(request):
         'Sunrise': str(sunrise_timestamp),
         'Sunset': str(sunset_timestamp),
         'Day lenght': dayLen,
-        'Wind': wind
+        'Wind': wind,
+        'Description': descr
     }
 
 
-    context = {'main_ip': ip, 'info':weather_info}
+    context = {'main_ip': ip, 'info':weather_info, 'today': descr}
     return render(request, 'index.html', context=context)
 
 
