@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.template import Template, Context
+
 from ipware import get_client_ip
 
 from ip2geotools.databases.noncommercial import DbIpCity
@@ -147,3 +147,17 @@ def forecast(request):
     main = {'city': city, 'country': country}
     weather = {'weather': data_every}
     return render(request, 'forecast.html', context={'main': main, 'weather': weather})
+
+
+
+def test(request):
+    x_forw_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forw_for is not None:
+        ip = x_forw_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+
+
+    context = {'main_ip': ip}
+
+    return render(request, 'test.html', context=context)
