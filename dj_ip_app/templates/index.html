@@ -7,18 +7,35 @@
         }
     </style>
 
-    {% if today == "heavy intensity rain" %}
+
+
+    {% if today == "heavy intensity rain" or today == "light intensity shower rain" or today == "shower rain" or today == "rain"%}
         <style>
             body{
-                background-image: url("https://afry.com/sites/default/files/styles/hero_type_l_tablet_landscape_up/public/2019-11/Underground%20mine%20in%20Ukraine.jpg?h=5823a141&itok=LhUg5rSD");
+                background-image: url("https://wallpaper.dog/large/17201458.jpg");
             }
         </style>
-    {% elif today == "light intensity shower rain" %}
+
+
+
+    {% elif today == "few clouds" or today == "broken clouds" or today == "scattered clouds"%}
         <style>
             body{
-                background-image: url("https://hackerbits.com/wp-content/uploads/2017/09/What_is_the_difference_between_rain_and_showers.jpg");
+                background-image: url("https://ec.europa.eu/research-and-innovation/sites/default/files/hm/field/image/clouds-mf.jpg");
             }
         </style>
+
+
+    {% elif today == "clear sky" %}
+        <style>
+            body{
+                background-image: url("https://media.istockphoto.com/photos/clear-blue-sky-background-picture-id508544168?b=1&k=20&m=508544168&s=170667a&w=0&h=WOYrVNi63gep7VdTc3mc9mbYCWoJ9_hraSqnAf5-9TU=");
+            }
+        </style>
+
+
+
+
 
     {% endif %}
 

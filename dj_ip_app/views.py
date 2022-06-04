@@ -104,7 +104,6 @@ def forecast(request):
 
     url2 = f'https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={exclude}&appid={api_key2}'
 
-    print(url2)
 
     req2 = requests.get(url2)
     data2 = req2.json()
