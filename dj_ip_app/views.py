@@ -113,8 +113,8 @@ def forecast(request):
     descr = []
 
     for i in data2['daily']:
-        days.append(round(i['temp']['day'] - 273.15, 2))
-        nights.append(round(i['temp']['night'] - 273.15, 2))
+        days.append(str(round(i['temp']['day'] - 273.15)) + ' °C' + '⠀')
+        nights.append(str(round(i['temp']['night'] - 273.15)) + ' °C')
         descr.append(i['weather'][0]['main'] + ': ' + i['weather'][0]['description'])
 
 
