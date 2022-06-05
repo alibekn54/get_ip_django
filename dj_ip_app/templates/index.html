@@ -2,10 +2,30 @@
 
 {% block content %}
     <style>
+
+        .city {
+            text-align: center;
+            font-size: 30px;
+            margin-top: 20px;
+        }
+
+        .desc {
+            font-size: 35px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
         .forecast {
             margin-top: 70px;
         }
-
+        .val {
+            margin: 40px 20px;
+            font-size: 70px;
+            text-align: center;
+            border: 5px solid #333;
+            border-radius: 20px;
+            padding: 20px 10px;
+        }
     @media only screen and (max-width: 600px) {
         .main {
             background-color: #B0EBAA;
@@ -64,9 +84,15 @@
 
 
     {% for item, value in info.items %}
-        <h5>{{ item }} : {{ value }}</h5>
+        {% if item == " " %}
+            <h1 class="desc">{{ value }}</h1>
+        {% elif item == "current weather" %}
+            <h1 class="val">{{ value }}</h1>
+        {% elif item == "Weather in" %}
+            <h1 class="city">{{value}}</h1>
+        {% else %}
+            <h5>{{ item }} : {{ value }}</h5>
+        {% endif %}
     {% endfor %}
-    {{ main_ip }}
-    {{ today }}
     <h3 class="forecast"><a href="{% url 'forecast' %}">8 Days Forecast</a></h3>
 {% endblock content %}

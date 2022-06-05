@@ -10,65 +10,6 @@ import geocoder
 import requests
 
 
-def get_ip(request):
-    # get api
-
-    x_forw_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forw_for is not None:
-        ip = x_forw_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-
-
-    api_key = 'd60722d76693fe5719d84103c6d08d89'
-    ip_city = geocoder.ip(ip)
-    # print(ip.city)
-    ip_city_2 = ip_city.city
-
-    city_name = ip_city_2
-
-    url = f'https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={api_key}'
-    req = requests.get(url)
-    data = req.json()
-
-    name = data['name']
-    cur_weather = round(data['main']['temp'] - 273.15, 2)
-    humidity = data['main']['humidity']
-    pressure = data['main']['pressure']
-    wind = data['wind']['speed']
-    lon = data['coord']['lon']
-    lat = data['coord']['lat']
-
-    sunrise_timestamp = datetime.datetime.fromtimestamp(data['sys']['sunrise'])
-    sunset_timestamp = datetime.datetime.fromtimestamp(data['sys']['sunset'])
-    dayLen = datetime.datetime.fromtimestamp(data['sys']['sunset']) - datetime.datetime.fromtimestamp(
-        data['sys']['sunrise'])
-
-    feels = round(data['main']['feels_like'] - 273.15, 2)
-    descr = data['weather'][0]['description']
-
-
-    weather_info = {
-        'Weather in': name,
-        'current weather': cur_weather,
-        'Feels like': feels,
-        'Humidity': humidity,
-        'Pressure': pressure,
-        'Sunrise': str(sunrise_timestamp),
-        'Sunset': str(sunset_timestamp),
-        'Day length': dayLen,
-        'Wind': wind,
-        'Description': descr
-    }
-
-
-    context = {'main_ip': ip, 'info':weather_info, 'today': descr}
-    return render(request, 'index.html', context=context)
-
-
-
-
-
 
 def forecast(request):
 
@@ -117,7 +58,8 @@ def forecast(request):
         nights.append(str(round(i['temp']['night'] - 273.15)) + ' °C')
         descr.append(i['weather'][0]['main'] + ': ' + i['weather'][0]['description'])
 
-
+    global strr
+    strr = 'main'
     data_dict = {'morning': days, 'nights': nights, 'descr': descr}
     data_every = {}
     j = 1
@@ -129,6 +71,60 @@ def forecast(request):
     main = {'city': name, 'country': ip_country}
     weather = {'weather': data_every}
     return render(request, 'forecast.html', context={'main': main, 'weather': weather})
+
+
+
+def get_ip(request):
+    # get api
+    x_forw_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forw_for is not None:
+        ip = x_forw_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+
+
+    api_key = 'd60722d76693fe5719d84103c6d08d89'
+    ip_city = geocoder.ip(ip)
+    # print(ip.city)
+    ip_city_2 = ip_city.city
+
+    city_name = ip_city_2
+
+    url = f'https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={api_key}'
+    req = requests.get(url)
+    data = req.json()
+
+    name = data['name']
+    cur_weather = round(data['main']['temp'] - 273.15, 2)
+    humidity = data['main']['humidity']
+    pressure = data['main']['pressure']
+    wind = data['wind']['speed']
+    lon = data['coord']['lon']
+    lat = data['coord']['lat']
+
+    sunrise_timestamp = datetime.datetime.fromtimestamp(data['sys']['sunrise'])
+    sunset_timestamp = datetime.datetime.fromtimestamp(data['sys']['sunset'])
+    dayLen = datetime.datetime.fromtimestamp(data['sys']['sunset']) - datetime.datetime.fromtimestamp(
+        data['sys']['sunrise'])
+
+    feels = round(data['main']['feels_like'] - 273.15, 2)
+    descr = data['weather'][0]['description']
+
+
+    weather_info = {
+        'Weather in': name,
+        'current weather': cur_weather,
+        ' ': descr
+    }
+
+
+
+    context = {'main_ip': ip, 'info':weather_info, 'today': descr, 'weather_all': 'sd'}
+    return render(request, 'index.html', context=context)
+
+
+
+
 
 
 #
